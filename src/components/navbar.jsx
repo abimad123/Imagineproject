@@ -1,4 +1,5 @@
 import {NavLink} from 'react-router';
+improt {Button} from "@components/navbar";
 
 const Navbar = () => {
   return (
@@ -11,8 +12,13 @@ const Navbar = () => {
             <NavLink to="/about">About</NavLink>
         </div>
         <div className='flex gap-4'>
+
+            <button>
             <NavLink to="/auth/login">Login</NavLink>
+            </button>
+            <button>
             <NavLink to="/auth/register">Register</NavLink>
+            </button>
         </div>
     </nav>
   )

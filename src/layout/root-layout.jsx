@@ -1,8 +1,10 @@
 import React from "react";
 import { Outlet } from "react-router";
 import Navbar from "../components/navbar";
-
+import { ThemeProvider } from "@/components/theme-provider";
+import { dark } from '@clerk/themes'
 import { ClerkProvider } from "@clerk/react-router";
+import { shadcn } from "@clerk/themes";
 
 // Import your Publishable Key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -13,14 +15,21 @@ if (!PUBLISHABLE_KEY) {
 
 const RootLayout = () => {
   return (
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+    <ThemeProvider defaultTheme="system" storageKey="imagine-ui-theme">
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}
+       appearance={{
+     theme: shadcn,
+   }}
+    >
       <div className="flex flex-col h-screen w-full">
+
         <Navbar />
         <div className="flex-1 overflow-auto">
           <Outlet />
         </div>
       </div>
     </ClerkProvider>
+</ThemeProvider>
   );
 };
 

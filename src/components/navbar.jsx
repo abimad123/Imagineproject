@@ -1,9 +1,16 @@
 import { NavLink } from "react-router";
 import { Button } from "@/components/ui/button";
 import { UserButton, useAuth } from "@clerk/clerk-react";
+import { useTheme } from "@/components/theme-provider";
+import {Sun, Moon} from "lucide-react";
 
 const Navbar = () => {
   const { isLoaded, isSignedIn } = useAuth();
+
+  const {theme,setTheme} = useTheme();
+  function toggleTheme(){
+    setTheme(theme === "light" ? "dark" : "light");
+  }
 
   return (
     <nav className="sticky top-0 z-100 flex h-14 shadow-sm items-center justify-between px-10">
@@ -25,7 +32,18 @@ const Navbar = () => {
         <UserButton
           userProfileMode="navigation"
           userProfileUrl="/auth/profile"
-        />
+          showName 
+        >
+          <UserButton.MenuItems>
+          <UserButton.Action
+          label={theme === "light" ? "Dark Mode" : "Light Mode"}
+          labelIcon={theme === "light" ? <Moon className="size-4"/> : <Sun className="size-4"/>}
+          onClick={toggleTheme}
+          />
+          </UserButton.MenuItems>
+
+
+        </UserButton>
       )}
 
       {isLoaded && !isSignedIn && (

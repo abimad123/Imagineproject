@@ -8,6 +8,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Profile from "./pages/profile";
 import NotFound from "./pages/not-found";
+import ProtectedRoute from "./components/protected-route";
 
 const routes = [
   {
@@ -16,11 +17,15 @@ const routes = [
     children: [
       {
         index: true,
-        element: <Home />,
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "about",
-        element: <div>About Page</div>
+        element: <div>About Page</div>,
       },
       {
         path: "auth",
@@ -29,21 +34,40 @@ const routes = [
           {
             path: "login",
             element: <Login />,
+            children: [
+              {
+                path: "*",
+              },
+            ],
           },
           {
             path: "register",
             element: <Register />,
+            children: [
+              {
+                path: "*",
+              },
+            ],
           },
           {
             path: "profile",
-            element: <Profile />,
-          }
-        ]
+            element: (
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            ),
+            children: [
+              {
+                path: "security",
+              },
+            ],
+          },
+        ],
       },
       {
-        path:"*",
-        element:<NotFound/>
-      }
+        path: "*",
+        element: <NotFound />,
+      },
     ],
   },
 ];
@@ -51,7 +75,7 @@ const routes = [
 const router = createBrowserRouter(routes);
 
 const App = () => {
-  return <RouterProvider router={router}/>
+  return <RouterProvider router={router} />;
 };
 
 export default App;
